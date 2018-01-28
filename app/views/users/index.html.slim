@@ -1,10 +1,15 @@
 h3 Everlywell Challenge by Quang Le
 
+= link_to "Add new user", new_user_path
 table
+  th Name
+  th Website URL
+  th Shortened Website URL
+  th Number of Friends
   - @users.each do |user|
     tr
-      td.name = user.name
-      td.url = user.website_url
-      td.short-url = user.shortened_website_url
-      td.friends-count = user.all_friends.size
+      td = user.name
+      td = link_to user.website_url
+      td = link_to  user.shortened_website_url
+      td = user.all_friends.size
       td = link_to "Profile", user_path(user)

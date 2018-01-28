@@ -1,0 +1,15 @@
+h3 Add a new User
+= form_for @user do |f|
+  - if @user.errors.present?
+    ul
+      - @user.errors.full_messages.each do |msg|
+        li= msg
+  p Name:
+  = f.text_field :name
+  p Website URL:
+  = f.text_field :website_url
+  p
+  = f.submit
+
+p
+  = link_to "Back", root_path
