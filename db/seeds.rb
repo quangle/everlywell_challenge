@@ -13,4 +13,5 @@ jane = User.create(name: 'jane doe', website_url: 'https://www.aplaceformom.com/
 
 quang.friends << john
 jack.friends << quang
+jane.friends << jack
 
