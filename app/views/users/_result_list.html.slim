@@ -1,0 +1,9 @@
+table
+  th Heading
+  th Expert
+  - headings.each do |heading|
+    tr
+      td
+        = heading.original_text
+      td
+        = heading.user.name

@@ -1,0 +1,10 @@
+h3 Everlywell Challenge by Quang Le
+
+table
+  - @users.each do |user|
+    tr
+      td.name = user.name
+      td.url = user.website_url
+      td.short-url = user.shortened_website_url
+      td.friends-count = user.all_friends.size
+      td = link_to "Profile", user_path(user)

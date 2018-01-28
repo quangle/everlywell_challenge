@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 gem 'listen'
 gem 'google_url_shortener'
+gem "slim-rails"
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -41,6 +42,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'byebug'
 end
 
 group :production do

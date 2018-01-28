@@ -1,0 +1,41 @@
+h3
+  = "#{@user.name}'s Profile"
+
+p
+  = "Name: #{@user.name}"
+p
+  = "Website URL: #{@user.website_url}"
+p
+  = "Shortened website URL: #{@user.shortened_website_url}"
+
+h3 Headings:
+table
+  - @user.headings.each do |heading|
+    tr
+      td.heading
+        = heading.original_text
+
+h3 Friends:
+table
+  - @user.all_friends.each do |friend|
+    tr
+      td.name
+        = friend.name
+      td.link
+        = link_to "Profile", user_path(friend)
+
+h3 Find experts by keyword:
+= form_tag(expert_search_path(id: @user.id), { method: :post, remote: true }) do
+  = text_field_tag "topic"
+  = submit_tag "Search"
+#result-container
+
+p
+  = link_to "Back", root_path
+
+javascript:
+  $(document).ready( function() {
+    $('form').on('ajax:success', function(event, data) {
+      $('#result-container').html(data);
+    });
+  });
