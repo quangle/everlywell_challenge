@@ -26,6 +26,19 @@ class User < ActiveRecord::Base
     Heading.where('tags @> ARRAY[?]::text[] AND user_id NOT IN (?)', topic_tags, all_friend_ids)
   end
 
+  def connection_to(another_user)
+    if another_user.all_friends.include?(self)
+      "#{self.name} => #{another_user.name}"
+    else
+      common_friends = another_user.all_friends & self.all_friends
+      if common_friends.present?
+        "#{self.name} => #{common_friends.map(&:name).join(', ')} => #{another_user.name}"
+      else
+        "no common friends"
+      end
+    end
+  end
+
   private
 
   def generate_shortened_url
