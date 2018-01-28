@@ -21,8 +21,10 @@ class User < ActiveRecord::Base
   end
 
   def find_related_headings_by_topic(topic)
+    # tokenize the topic text like the heading text
     topic_tags = topic.to_s.downcase.gsub('-', ' ').gsub(/[^[:word:]\s]/, '').split.uniq
     all_friend_ids = all_friends.map(&:id) + [self.id]
+    #find headings containing all tags from topic belonging to non-friends and not yourself
     Heading.where('tags @> ARRAY[?]::text[] AND user_id NOT IN (?)', topic_tags, all_friend_ids)
   end
 
@@ -30,6 +32,8 @@ class User < ActiveRecord::Base
     if another_user.all_friends.include?(self)
       "#{self.name} => #{another_user.name}"
     else
+      #probably can go deeper to find friends of friends of friends ...
+      #this implementation only look for common friend(s) between searcher and expert
       common_friends = another_user.all_friends & self.all_friends
       if common_friends.present?
         "#{self.name} => #{common_friends.map(&:name).join(', ')} => #{another_user.name}"
@@ -56,6 +60,7 @@ class User < ActiveRecord::Base
       headings = doc.css('h1, h2, h3').map(&:text)
 
       headings.each do |heading|
+        # the intention is to tokenize a heading text into tags, basically a primitive imitation of Elasticsearch tokenizers
         tags = heading.to_s.downcase.gsub('-', ' ').gsub(/[^[:word:]\s]/, '').split.uniq
         self.headings.create(original_text: heading, tags: tags)
       end
