@@ -20,6 +20,11 @@ class User < ActiveRecord::Base
     (friends + inverse_friends).uniq
   end
 
+  def not_friends
+    all_friend_ids = all_friends.map(&:id) + [self.id]
+    User.where('id NOT IN (?)', all_friend_ids)
+  end
+
   def find_related_headings_by_topic(topic)
     # tokenize the topic text like the heading text
     topic_tags = topic.to_s.downcase.gsub('-', ' ').gsub(/[^[:word:]\s]/, '').split.uniq

@@ -9,27 +9,36 @@ p
   = "Shortened website URL: "
   = link_to @user.shortened_website_url
 
-h3 Headings:
-table
-  - @user.headings.each do |heading|
-    tr
-      td.heading
-        = heading.original_text
-
-h3 Friends:
-table
-  - @user.all_friends.each do |friend|
-    tr
-      td.name
-        = friend.name
-      td.link
-        = link_to "Profile", user_path(friend)
-
 h3 Find experts by topic:
 = form_tag(expert_search_path(id: @user.id), { method: :post, remote: true }) do
   = text_field_tag "topic"
   = submit_tag "Search"
 #result-container
+
+h3 Friends List:
+table
+  - @user.all_friends.each do |friend|
+    tr
+      td
+        = friend.name
+      td
+        = link_to "Profile", user_path(friend)
+
+h3 Not Friends Yet:
+table
+  - @user.not_friends.each do |friend|
+    tr
+      td
+        = friend.name
+      td
+        = link_to "Add friend", add_friend_path(id: @user.id, friend_id: friend.id), method: :post
+
+h3 Headings:
+table
+  - @user.headings.each do |heading|
+    tr
+      td
+        = heading.original_text
 
 p
   = link_to "Back", root_path
